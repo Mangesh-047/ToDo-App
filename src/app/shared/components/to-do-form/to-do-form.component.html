@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Add ToDo Items</h2>
+<form (ngSubmit)="onFormSubmit()" [formGroup]="todoForm">
+    <mat-dialog-content class="mat-typography">
+
+
+        <mat-form-field appearance="outline" class="w-100">
+            <mat-label>ToDo Item</mat-label>
+            <input matInput formControlName="todoItem" cdkFocusInitial>
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+            <!-- <mat-hint>Hint</mat-hint> -->
+            <mat-error *ngIf="">
+                This Field is mandatory.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" [mat-dialog-close]="true" type="submit" [disabled]="todoForm.invalid"
+            *ngIf="!id">Add
+            ToDo</button>
+        <button mat-raised-button color="accent" [mat-dialog-close]="true" type="submit" [disabled]="todoForm.invalid"
+            *ngIf="id" (click)="onUpdate()" type="button">Update</button>
+        <button mat-button [mat-dialog-close]="false" type="button">Cancel</button>
+    </mat-dialog-actions>
+</form>

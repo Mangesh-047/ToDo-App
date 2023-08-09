@@ -1,0 +1,21 @@
+<h2>ToDo List</h2>
+
+<ul class="list-group mt-4">
+    <li class="list-group-item " *ngFor="let td of todoArr">
+        <div class=" row">
+            <div class="col-8">
+                {{td.todoItem}}
+            </div>
+            <div class="col-4 d-flex justify-content-end">
+
+                <button mat-mini-fab color="primary">
+                    <mat-icon (click)="onEdit(td)">edit</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" class="ml-4" (click)="onDelete(td)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+
+            </div>
+        </div>
+    </li>
+</ul>
