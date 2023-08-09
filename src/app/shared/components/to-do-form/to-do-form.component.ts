@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToDoService } from '../../services/to-do.service';
 import { SnackbarService } from '../../services/snackbar.service';
-import { HttpClient } from '@angular/common/http';
 import { ToDoListComponent } from '../to-do-list/to-do-list.component';
 import { DialogRef } from '@angular/cdk/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -20,23 +19,11 @@ export class ToDoFormComponent implements OnInit {
     private _fb: FormBuilder,
     private _toDoservice: ToDoService,
     private _snackbarService: SnackbarService,
-    private _http: HttpClient,
     private _dialogRef: DialogRef<ToDoListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  ngAfterViewInit(): void {
-    if (this.data) {
 
-      // console.log(this.data.todoItem);
-
-      // localStorage.setItem('todoId', this.data.id)
-    }
-    // console.log(this.todoForm.controls);
-
-
-
-  }
 
   ngOnInit(): void {
     this.todoForm = this._fb.group({
@@ -47,34 +34,30 @@ export class ToDoFormComponent implements OnInit {
     if (this.data) {
 
       this.id = this.data.id
+      console.log(this.id);
+
     }
 
 
   }
 
-  // addToList(item: HTMLInputElement) {
-  //   let val = item.value.toUpperCase();
 
-  //   if (val.length > 0) {
-
-  //     this._toDoservice.addItemtoDo(val)
-  //   }
-
-  //   item.value = '';
-  // }
 
   onFormSubmit() {
     if (this.todoForm.valid) {
       // console.log(this.todoForm.controls);
-
       // console.log(this.todoForm.value);
-      this._toDoservice.addToDoItem(this.todoForm.value)
-        .subscribe(
-          res => {
-            // console.log(res);
-            this._snackbarService.openSnackBar('ToDo Item Added Successfully')
-          }
-        )
+
+      if (!this.id) {
+        this._toDoservice.addToDoItem(this.todoForm.value)
+          .subscribe(
+            res => {
+              // console.log(res);
+              this._snackbarService.openSnackBar('ToDo Item Added Successfully')
+            }
+          )
+      }
+
 
 
     }
@@ -83,11 +66,7 @@ export class ToDoFormComponent implements OnInit {
 
   onUpdate() {
     if (this.todoForm.valid) {
-
-
       // console.log(this.todoForm.value, this.id);
-
-
       this._toDoservice.updateToDoItem(this.id, this.todoForm.value)
         .subscribe(
           res => {
@@ -98,6 +77,7 @@ export class ToDoFormComponent implements OnInit {
             }
             // console.log(obj);
             this._snackbarService.openSnackBar(`Updated Successfully`)
+
             this._toDoservice.updateDate$.next(obj)
 
           }
